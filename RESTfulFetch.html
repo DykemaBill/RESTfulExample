@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>RESTful with Fetch</title>
+</head>
+<body>
+	
+	<script type="text/javascript">
+
+		// Run when page loads
+		document.addEventListener("DOMContentLoaded", function() {
+
+			const serverName = "https://jsonplaceholder.typicode.com/todos"
+
+			// Get the first item from the JSON server
+			fetch(`${serverName}/1`)
+			.then(res => res.json())
+			.then(json => { 
+				console.log(`First item using GET: Title is '${json.title}' and completed is '${json.completed}'.`)
+			})
+			.catch(err => console.error(err))
+
+			// Send item to JSON server that sends data back that you send it
+			fetch(serverName, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ title: "To Do Add", completed: false })
+			})
+			.then((res) => res.json())
+			.then((json) => { 
+				console.log(`Sent item using POST: Title is '${json.title}' and completed is '${json.completed}'.`)
+			})
+			.catch(err => console.error(err))
+
+			// Delete item from JSON server
+			fetch(`${serverName}/1`, {
+				method: 'DELETE'
+			})
+			.then((res) => res.json())
+			.then((json) => { 
+				console.log(`Deleted item, these should be undefined now: Title is '${json.title}' and completed is '${json.completed}'.`)
+			})
+			.catch(err => console.error(err))
+
+		})
+
+	</script>
+
+	<div>
+		<h2>Nothing here to see, look at the log.</h2>
+	</div>
+
+</body>
+</html>
